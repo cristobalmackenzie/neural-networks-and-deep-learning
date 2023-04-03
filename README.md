@@ -1,3 +1,10 @@
+# Notes
+
+I'm currently reading Neural Networks and Deep Learning by Michael Nielsen,
+and will try and adapt this code to python 3 and Tensor Flow (and black formatting!...)
+as I work through the book.
+
+-------------------------------------------------------------------------
 # Code samples for "Neural Networks and Deep Learning"
 
 This repository contains code samples for my book on ["Neural Networks

@@ -217,13 +217,13 @@ def ensemble(nets):
                 test_x[i*net.mini_batch_size: (i+1)*net.mini_batch_size]
             })
         net.test_predictions = list(np.concatenate(
-            [net.test_mb_predictions(i) for i in xrange(1000)]))
+            [net.test_mb_predictions(i) for i in range(1000)]))
     all_test_predictions = zip(*[net.test_predictions for net in nets])
     def plurality(p): return Counter(p).most_common(1)[0][0]
     plurality_test_predictions = [plurality(p) 
                                   for p in all_test_predictions]
     test_y_eval = test_y.eval()
-    error_locations = [j for j in xrange(10000) 
+    error_locations = [j for j in range(10000) 
                        if plurality_test_predictions[j] != test_y_eval[j]]
     erroneous_predictions = [plurality(all_test_predictions[j])
                              for j in error_locations]

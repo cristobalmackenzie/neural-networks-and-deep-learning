@@ -81,7 +81,7 @@ def load_data_shared(filename="../data/mnist.pkl.gz"):
     return [shared(training_data), shared(validation_data), shared(test_data)]
 
 #### Main class used to construct and train networks
-class Network(object):
+class Network:
 
     def __init__(self, layers, mini_batch_size):
         """Takes a list of `layers`, describing the network architecture, and
@@ -96,7 +96,7 @@ class Network(object):
         self.y = T.ivector("y")
         init_layer = self.layers[0]
         init_layer.set_inpt(self.x, self.x, self.mini_batch_size)
-        for j in xrange(1, len(self.layers)):
+        for j in range(1, len(self.layers)):
             prev_layer, layer  = self.layers[j-1], self.layers[j]
             layer.set_inpt(
                 prev_layer.output, prev_layer.output_dropout, self.mini_batch_size)
@@ -158,15 +158,15 @@ class Network(object):
             })
         # Do the actual training
         best_validation_accuracy = 0.0
-        for epoch in xrange(epochs):
-            for minibatch_index in xrange(num_training_batches):
+        for epoch in range(epochs):
+            for minibatch_index in range(num_training_batches):
                 iteration = num_training_batches*epoch+minibatch_index
                 if iteration % 1000 == 0:
                     print("Training mini-batch number {0}".format(iteration))
                 cost_ij = train_mb(minibatch_index)
                 if (iteration+1) % num_training_batches == 0:
                     validation_accuracy = np.mean(
-                        [validate_mb_accuracy(j) for j in xrange(num_validation_batches)])
+                        [validate_mb_accuracy(j) for j in range(num_validation_batches)])
                     print("Epoch {0}: validation accuracy {1:.2%}".format(
                         epoch, validation_accuracy))
                     if validation_accuracy >= best_validation_accuracy:
@@ -175,7 +175,7 @@ class Network(object):
                         best_iteration = iteration
                         if test_data:
                             test_accuracy = np.mean(
-                                [test_mb_accuracy(j) for j in xrange(num_test_batches)])
+                                [test_mb_accuracy(j) for j in range(num_test_batches)])
                             print('The corresponding test accuracy is {0:.2%}'.format(
                                 test_accuracy))
         print("Finished training network.")
@@ -185,7 +185,7 @@ class Network(object):
 
 #### Define layer types
 
-class ConvPoolLayer(object):
+class ConvPoolLayer:
     """Used to create a combination of a convolutional and a max-pooling
     layer.  A more sophisticated implementation would separate the
     two, but for our purposes we'll always use them together, and it
@@ -236,7 +236,7 @@ class ConvPoolLayer(object):
             pooled_out + self.b.dimshuffle('x', 0, 'x', 'x'))
         self.output_dropout = self.output # no dropout in the convolutional layers
 
-class FullyConnectedLayer(object):
+class FullyConnectedLayer:
 
     def __init__(self, n_in, n_out, activation_fn=sigmoid, p_dropout=0.0):
         self.n_in = n_in
@@ -270,7 +270,7 @@ class FullyConnectedLayer(object):
         "Return the accuracy for the mini-batch."
         return T.mean(T.eq(y, self.y_out))
 
-class SoftmaxLayer(object):
+class SoftmaxLayer:
 
     def __init__(self, n_in, n_out, p_dropout=0.0):
         self.n_in = n_in
